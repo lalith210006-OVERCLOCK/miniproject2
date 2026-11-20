@@ -1,0 +1,300 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskFlow | Project Management</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+
+<div class="app-container">
+
+    <aside class="sidebar">
+        <div class="logo">
+            <span class="logo-icon">✦</span>
+            <h2>TaskFlow</h2>
+        </div>
+
+        <p class="menu-label">MENU</p>
+
+        <nav>
+            <a href="#" class="nav-link active" data-view="dashboard">
+                <span>▦</span> Dashboard
+            </a>
+            <a href="#" class="nav-link" data-view="tasks">
+                <span>✓</span> My Tasks
+            </a>
+            <a href="#" class="nav-link" data-view="categories">
+                <span>▤</span> Categories
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+            <div class="profile">
+                <div class="avatar">JD</div>
+                <div>
+                    <strong>John Doe</strong>
+                    <small>Administrator</small>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+
+        <header class="topbar">
+            <div>
+                <h1 id="page-title">Dashboard</h1>
+                <p>Manage your work and stay productive.</p>
+            </div>
+
+            <button class="primary-btn" id="add-task-btn">
+                + Add New Task
+            </button>
+        </header>
+
+        <!-- Dashboard -->
+        <section id="dashboard-view">
+
+            <div class="welcome-card">
+                <div>
+                    <p>WELCOME TO TASKFLOW 👋</p>
+                    <h2>Let's make today productive!</h2>
+                    <span>Organize your projects, manage your tasks and achieve your goals.</span>
+                </div>
+                <div class="welcome-icon">🚀</div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon purple">▦</div>
+                    <p>Total Tasks</p>
+                    <h2 id="total-tasks">0</h2>
+                    <small>All your tasks</small>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon green">✓</div>
+                    <p>Completed</p>
+                    <h2 id="completed-tasks">0</h2>
+                    <small>Successfully finished</small>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon orange">◷</div>
+                    <p>In Progress</p>
+                    <h2 id="progress-tasks">0</h2>
+                    <small>Currently working</small>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon blue">!</div>
+                    <p>Pending</p>
+                    <h2 id="pending-tasks">0</h2>
+                    <small>Waiting to start</small>
+                </div>
+            </div>
+
+            <div class="content-card progress-card">
+                <div class="section-heading">
+                    <div>
+                        <h3>Overall Progress</h3>
+                        <p>Track your productivity</p>
+                    </div>
+                    <strong id="progress-percent">0%</strong>
+                </div>
+
+                <div class="progress-track">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+            </div>
+
+            <div class="content-card">
+                <div class="section-heading">
+                    <div>
+                        <h3>Recent Tasks</h3>
+                        <p>Your latest activities</p>
+                    </div>
+                    <button class="text-btn" data-go="tasks">View All →</button>
+                </div>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Task Name</th>
+                                <th>Category</th>
+                                <th>Priority</th>
+                                <th>Status</th>
+                                <th>Due Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recent-task-list"></tbody>
+                    </table>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Tasks -->
+        <section id="tasks-view" class="hidden">
+            <div class="content-card">
+                <div class="section-heading">
+                    <div>
+                        <h3>All Tasks</h3>
+                        <p>Manage and organize all your activities.</p>
+                    </div>
+                </div>
+
+                <div class="toolbar">
+                    <input type="search" id="search-task"
+                           placeholder="Search tasks...">
+
+                    <select id="status-filter">
+                        <option value="all">All Status</option>
+                        <option value="Pending">Pending</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Completed">Completed</option>
+                    </select>
+
+                    <select id="priority-filter">
+                        <option value="all">All Priorities</option>
+                        <option value="High">High</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Low">Low</option>
+                    </select>
+
+                    <select id="category-filter">
+                        <option value="all">All Categories</option>
+                    </select>
+                </div>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Task Name</th>
+                                <th>Category</th>
+                                <th>Priority</th>
+                                <th>Status</th>
+                                <th>Due Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="all-task-list"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+
+
+        <!-- Categories -->
+        <section id="categories-view" class="hidden">
+            <div class="section-heading ">
+                <div>
+                    <h3>My Categories</h3>
+                    <p>Create your own categories to organize your tasks.</p>
+                </div>
+
+                <button class="primary-btn" id="add-category-btn">
+                    + New Category
+                </button>
+            </div>
+
+            <div class="category-grid" id="category-list"></div>
+        </section>
+
+    </main>
+</div>
+
+<!-- Task Modal -->
+<div class="modal-overlay hidden" id="task-modal">
+    <div class="modal">
+        <div class="modal-heading">
+            <h2 id="modal-title">Create New Task</h2>
+            <button class="close-btn" data-close="task-modal">×</button>
+        </div>
+
+        <form id="task-form">
+            <input type="hidden" id="task-id">
+
+            <label>Task Name</label>
+            <input type="text" id="task-name"
+                   placeholder="Enter task name" required>
+
+            <label>Description</label>
+            <textarea id="task-description"
+                      placeholder="Describe your task"></textarea>
+
+
+            <label>Category</label>
+            <select id="task-category" required>
+                <option value="">Select a category</option>
+            </select>
+
+            <div class="form-row">
+                <div>
+                    <label>Priority</label>
+                    <select id="task-priority">
+                        <option>Low</option>
+                        <option selected>Medium</option>
+                        <option>High</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label>Status</label>
+                    <select id="task-status">
+                        <option>Pending</option>
+                        <option>In Progress</option>
+                        <option>Completed</option>
+                    </select>
+                </div>
+            </div>
+
+            <label>Due Date</label>
+            <input type="date" id="task-date" required>
+
+            <button type="submit" class="primary-btn full-btn">
+                Save Task
+            </button>
+        </form>
+    </div>
+</div>
+
+
+
+<!-- Category Modal -->
+<div class="modal-overlay hidden" id="category-modal">
+    <div class="modal">
+        <div class="modal-heading">
+            <h2>Create Category</h2>
+            <button class="close-btn" data-close="category-modal">×</button>
+        </div>
+
+        <form id="category-form">
+            <label>Category Name</label>
+            <input type="text" id="category-name"
+                   placeholder="e.g. Personal, Work, College" required>
+
+            <label>Category Description</label>
+            <textarea id="category-description"
+                      placeholder="Describe this category"></textarea>
+
+            <button type="submit" class="primary-btn full-btn">
+                Create Category
+            </button>
+        </form>
+    </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script src="{% static 'script.js' %}" defer></script>
+</body>
+</html>
